@@ -1,0 +1,18 @@
+[plugin]
+name = "fledge-plugin-bench"
+version = "0.2.0"
+description = "Run benchmarks, save a baseline, and flag regressions. Built in Rust."
+author = "CorvidLabs"
+protocol = "fledge-v1"
+
+[capabilities]
+exec = true
+store = true
+
+[[commands]]
+name = "bench"
+description = "Run benchmarks and compare against a stored baseline"
+binary = "bin/fledge-bench"
+
+[hooks]
+build = "bin/build.sh"

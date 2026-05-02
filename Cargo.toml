@@ -1,0 +1,18 @@
+[package]
+name = "fledge-plugin-bench"
+version = "0.2.0"
+edition = "2021"
+description = "Run benchmarks, save a baseline, and flag regressions"
+license = "MIT"
+authors = ["CorvidLabs"]
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+regex = "1"
+
+[profile.release]
+opt-level = "z"
+lto = true
+strip = true
+codegen-units = 1
