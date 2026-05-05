@@ -100,16 +100,23 @@ fn main() {
 
     // `show` and `clear` don't need exec.
     if opts.sub == "show" {
-        let b = if init.capabilities.store { load_baseline() } else { None };
+        let b = if init.capabilities.store {
+            load_baseline()
+        } else {
+            None
+        };
         match b {
             None => output_line("No baseline saved."),
             Some(b) => {
                 if opts.json {
-                    output_line(&serde_json::to_string(&json!({
-                        "schema_version": 1,
-                        "action": "bench_show",
-                        "baseline": b,
-                    })).unwrap());
+                    output_line(
+                        &serde_json::to_string(&json!({
+                            "schema_version": 1,
+                            "action": "bench_show",
+                            "baseline": b,
+                        }))
+                        .unwrap(),
+                    );
                 } else {
                     print_baseline(&b);
                 }
@@ -130,17 +137,25 @@ fn main() {
     }
 
     let project = init.project;
-    let root = project.as_ref().and_then(|p| p.root.clone()).unwrap_or_else(|| ".".into());
+    let root = project
+        .as_ref()
+        .and_then(|p| p.root.clone())
+        .unwrap_or_else(|| ".".into());
     let project_lang = project.as_ref().and_then(|p| p.language.clone());
 
-    let lang = opts.lang.clone()
+    let lang = opts
+        .lang
+        .clone()
         .or(project_lang)
         .or_else(|| detect_lang(&root));
 
     let lang = match lang.as_deref() {
         Some(l) if COMMANDS.iter().any(|(n, _)| *n == l) => l.to_string(),
         _ => {
-            log_err(&format!("Could not detect a supported language in {} (try --lang)", root));
+            log_err(&format!(
+                "Could not detect a supported language in {} (try --lang)",
+                root
+            ));
             exit(2);
         }
     };
@@ -179,14 +194,17 @@ fn main() {
         let raw = serde_json::to_string(&payload).unwrap();
         send(&json!({"type": "store", "key": "baseline", "value": raw}));
         if opts.json {
-            output_line(&serde_json::to_string(&json!({
-                "schema_version": 1,
-                "action": "bench_save",
-                "language": &lang,
-                "command": command,
-                "results": parsed,
-                "saved_at": payload.saved_at,
-            })).unwrap());
+            output_line(
+                &serde_json::to_string(&json!({
+                    "schema_version": 1,
+                    "action": "bench_save",
+                    "language": &lang,
+                    "command": command,
+                    "results": parsed,
+                    "saved_at": payload.saved_at,
+                }))
+                .unwrap(),
+            );
         } else {
             output_line(&format!("Baseline saved: {} benchmark(s).", parsed.len()));
         }
@@ -194,23 +212,31 @@ fn main() {
     }
 
     // default sub == "run"
-    let baseline = if init.capabilities.store { load_baseline() } else { None };
+    let baseline = if init.capabilities.store {
+        load_baseline()
+    } else {
+        None
+    };
     match baseline {
         None => {
             if opts.json {
-                output_line(&serde_json::to_string(&json!({
-                    "schema_version": 1,
-                    "action": "bench_run",
-                    "language": &lang,
-                    "command": command,
-                    "results": parsed,
-                    "saved_at": payload.saved_at,
-                    "compared": false,
-                })).unwrap());
+                output_line(
+                    &serde_json::to_string(&json!({
+                        "schema_version": 1,
+                        "action": "bench_run",
+                        "language": &lang,
+                        "command": command,
+                        "results": parsed,
+                        "saved_at": payload.saved_at,
+                        "compared": false,
+                    }))
+                    .unwrap(),
+                );
             } else {
                 output_line(&format!(
                     "Benchmarks ({}, {} result(s)) — no baseline yet.",
-                    lang, parsed.len()
+                    lang,
+                    parsed.len()
                 ));
                 for r in &parsed {
                     output_line(&format!("  {:40} {:>12.1} ns/op", r.name, r.ns_per_op));
@@ -223,20 +249,27 @@ fn main() {
             let regressions: Vec<&Diff> = diffs.iter().filter(|d| d.regression).collect();
 
             if opts.json {
-                output_line(&serde_json::to_string(&json!({
-                    "schema_version": 1,
-                    "action": "bench_run",
-                    "language": &lang,
-                    "command": command,
-                    "results": parsed,
-                    "saved_at": payload.saved_at,
-                    "compared": true,
-                    "threshold_pct": opts.threshold,
-                    "regression_count": regressions.len(),
-                    "diffs": diffs,
-                })).unwrap());
+                output_line(
+                    &serde_json::to_string(&json!({
+                        "schema_version": 1,
+                        "action": "bench_run",
+                        "language": &lang,
+                        "command": command,
+                        "results": parsed,
+                        "saved_at": payload.saved_at,
+                        "compared": true,
+                        "threshold_pct": opts.threshold,
+                        "regression_count": regressions.len(),
+                        "diffs": diffs,
+                    }))
+                    .unwrap(),
+                );
             } else {
-                output_line(&format!("Benchmarks ({}, {} result(s)):", lang, parsed.len()));
+                output_line(&format!(
+                    "Benchmarks ({}, {} result(s)):",
+                    lang,
+                    parsed.len()
+                ));
                 for d in &diffs {
                     let (marker, delta) = if d.new {
                         ("+", "  (new)".to_string())
@@ -255,7 +288,8 @@ fn main() {
                 if !regressions.is_empty() {
                     output_line(&format!(
                         "\n{} regression(s) over {:.1}% threshold",
-                        regressions.len(), opts.threshold
+                        regressions.len(),
+                        opts.threshold
                     ));
                 }
             }
@@ -325,21 +359,29 @@ fn parse_results(output: &str, lang: &str) -> Vec<BenchResult> {
     match lang {
         "rust" => {
             // libtest: `test name ... bench: N,NNN ns/iter`
-            let re_iter = Regex::new(r"(?m)^test\s+(\S+)\s*\.\.\.\s*bench:\s*([\d,]+)\s*ns/iter").unwrap();
+            let re_iter =
+                Regex::new(r"(?m)^test\s+(\S+)\s*\.\.\.\s*bench:\s*([\d,]+)\s*ns/iter").unwrap();
             for c in re_iter.captures_iter(output) {
                 let n = c.get(1).unwrap().as_str().to_string();
                 let raw = c.get(2).unwrap().as_str().replace(',', "");
                 if let Ok(v) = raw.parse::<f64>() {
-                    out.push(BenchResult { name: n, ns_per_op: v });
+                    out.push(BenchResult {
+                        name: n,
+                        ns_per_op: v,
+                    });
                 }
             }
             // Criterion: `bench/group   time:   [low mid high ns]`
-            let re_crit = Regex::new(r"(?m)^([\w\-:/]+)\s+time:\s*\[\S+\s+\S+\s+([\d.]+)\s+ns\b").unwrap();
+            let re_crit =
+                Regex::new(r"(?m)^([\w\-:/]+)\s+time:\s*\[\S+\s+\S+\s+([\d.]+)\s+ns\b").unwrap();
             for c in re_crit.captures_iter(output) {
                 let n = c.get(1).unwrap().as_str().to_string();
                 if let Ok(v) = c.get(2).unwrap().as_str().parse::<f64>() {
                     if !out.iter().any(|r| r.name == n) {
-                        out.push(BenchResult { name: n, ns_per_op: v });
+                        out.push(BenchResult {
+                            name: n,
+                            ns_per_op: v,
+                        });
                     }
                 }
             }
@@ -349,7 +391,10 @@ fn parse_results(output: &str, lang: &str) -> Vec<BenchResult> {
             for c in re.captures_iter(output) {
                 let n = c.get(1).unwrap().as_str().to_string();
                 if let Ok(v) = c.get(2).unwrap().as_str().parse::<f64>() {
-                    out.push(BenchResult { name: n, ns_per_op: v });
+                    out.push(BenchResult {
+                        name: n,
+                        ns_per_op: v,
+                    });
                 }
             }
         }
@@ -368,7 +413,10 @@ fn parse_results(output: &str, lang: &str) -> Vec<BenchResult> {
                     "s" => 1e9,
                     _ => 1.0,
                 };
-                out.push(BenchResult { name: n, ns_per_op: raw * scale });
+                out.push(BenchResult {
+                    name: n,
+                    ns_per_op: raw * scale,
+                });
             }
         }
         "node" => {
@@ -381,7 +429,10 @@ fn parse_results(output: &str, lang: &str) -> Vec<BenchResult> {
                     Err(_) => continue,
                 };
                 if ops > 0.0 {
-                    out.push(BenchResult { name: n, ns_per_op: 1e9 / ops });
+                    out.push(BenchResult {
+                        name: n,
+                        ns_per_op: 1e9 / ops,
+                    });
                 }
             }
         }
@@ -400,7 +451,13 @@ fn compare(current: &[BenchResult], baseline: &Baseline, threshold_pct: f64) -> 
         .iter()
         .map(|r| {
             let prev = by_name.get(r.name.as_str()).copied();
-            let delta = prev.and_then(|p| if p > 0.0 { Some((r.ns_per_op - p) / p * 100.0) } else { None });
+            let delta = prev.and_then(|p| {
+                if p > 0.0 {
+                    Some((r.ns_per_op - p) / p * 100.0)
+                } else {
+                    None
+                }
+            });
             let regression = matches!(delta, Some(d) if d > threshold_pct);
             Diff {
                 name: r.name.clone(),
@@ -417,7 +474,9 @@ fn compare(current: &[BenchResult], baseline: &Baseline, threshold_pct: f64) -> 
 fn print_baseline(b: &Baseline) {
     output_line(&format!(
         "Baseline ({}, {} benchmarks, saved at {}):",
-        b.language, b.results.len(), b.saved_at
+        b.language,
+        b.results.len(),
+        b.saved_at
     ));
     for r in &b.results {
         output_line(&format!("  {:40} {:>12.1} ns/op", r.name, r.ns_per_op));
@@ -426,7 +485,10 @@ fn print_baseline(b: &Baseline) {
 
 fn current_iso8601() -> String {
     use std::time::{SystemTime, UNIX_EPOCH};
-    let secs = SystemTime::now().duration_since(UNIX_EPOCH).map(|d| d.as_secs()).unwrap_or(0);
+    let secs = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .map(|d| d.as_secs())
+        .unwrap_or(0);
     let (y, mo, d, h, mi, s) = epoch_to_ymd(secs);
     format!("{:04}-{:02}-{:02}T{:02}:{:02}:{:02}Z", y, mo, d, h, mi, s)
 }
@@ -439,7 +501,12 @@ fn epoch_to_ymd(mut s: u64) -> (u64, u64, u64, u64, u64, u64) {
     let mut y = 1970u64;
     loop {
         let dy = if is_leap(y) { 366 } else { 365 };
-        if s >= dy { s -= dy; y += 1; } else { break; }
+        if s >= dy {
+            s -= dy;
+            y += 1;
+        } else {
+            break;
+        }
     }
     let mdays = if is_leap(y) {
         [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
@@ -448,14 +515,21 @@ fn epoch_to_ymd(mut s: u64) -> (u64, u64, u64, u64, u64, u64) {
     };
     let mut mo = 0;
     for (i, &dm) in mdays.iter().enumerate() {
-        if s >= dm { s -= dm; } else { mo = i + 1; break; }
+        if s >= dm {
+            s -= dm;
+        } else {
+            mo = i + 1;
+            break;
+        }
     }
-    if mo == 0 { mo = 12; }
+    if mo == 0 {
+        mo = 12;
+    }
     (y, mo as u64, s + 1, h, mi, sec)
 }
 
 fn is_leap(y: u64) -> bool {
-    (y % 4 == 0 && y % 100 != 0) || y % 400 == 0
+    (y.is_multiple_of(4) && !y.is_multiple_of(100)) || y.is_multiple_of(400)
 }
 
 // ---- protocol I/O -----------------------------------------------------------
@@ -526,4 +600,429 @@ fn log_err(message: &str) {
 
 fn log_warn(message: &str) {
     send(&json!({"type": "log", "level": "warn", "message": message}));
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    // ---- parse_args tests -------------------------------------------------------
+
+    #[test]
+    fn parse_args_defaults() {
+        let opts = parse_args(&[]);
+        assert_eq!(opts.sub, "run");
+        assert!(!opts.json);
+        assert_eq!(opts.threshold, 10.0);
+        assert!(opts.lang.is_none());
+    }
+
+    #[test]
+    fn parse_args_subcommand() {
+        let args: Vec<String> = vec!["save".into()];
+        let opts = parse_args(&args);
+        assert_eq!(opts.sub, "save");
+    }
+
+    #[test]
+    fn parse_args_show() {
+        let args: Vec<String> = vec!["show".into()];
+        let opts = parse_args(&args);
+        assert_eq!(opts.sub, "show");
+    }
+
+    #[test]
+    fn parse_args_clear() {
+        let args: Vec<String> = vec!["clear".into()];
+        let opts = parse_args(&args);
+        assert_eq!(opts.sub, "clear");
+    }
+
+    #[test]
+    fn parse_args_json_flag() {
+        let args: Vec<String> = vec!["--json".into()];
+        let opts = parse_args(&args);
+        assert!(opts.json);
+        assert_eq!(opts.sub, "run"); // still default
+    }
+
+    #[test]
+    fn parse_args_threshold() {
+        let args: Vec<String> = vec!["--threshold".into(), "5.5".into()];
+        let opts = parse_args(&args);
+        assert_eq!(opts.threshold, 5.5);
+    }
+
+    #[test]
+    fn parse_args_lang() {
+        let args: Vec<String> = vec!["--lang".into(), "go".into()];
+        let opts = parse_args(&args);
+        assert_eq!(opts.lang, Some("go".to_string()));
+    }
+
+    #[test]
+    fn parse_args_combined() {
+        let args: Vec<String> = vec![
+            "save".into(),
+            "--json".into(),
+            "--threshold".into(),
+            "2.0".into(),
+            "--lang".into(),
+            "rust".into(),
+        ];
+        let opts = parse_args(&args);
+        assert_eq!(opts.sub, "save");
+        assert!(opts.json);
+        assert_eq!(opts.threshold, 2.0);
+        assert_eq!(opts.lang, Some("rust".to_string()));
+    }
+
+    #[test]
+    fn parse_args_threshold_missing_value() {
+        // --threshold at end with no value: threshold stays at default
+        let args: Vec<String> = vec!["--threshold".into()];
+        let opts = parse_args(&args);
+        assert_eq!(opts.threshold, 10.0);
+    }
+
+    // ---- detect_lang tests ------------------------------------------------------
+
+    #[test]
+    fn detect_lang_rust() {
+        let dir = std::env::temp_dir().join("bench_test_detect_rust");
+        std::fs::create_dir_all(&dir).unwrap();
+        std::fs::write(dir.join("Cargo.toml"), "").unwrap();
+        let result = detect_lang(dir.to_str().unwrap());
+        assert_eq!(result, Some("rust".to_string()));
+        std::fs::remove_dir_all(&dir).ok();
+    }
+
+    #[test]
+    fn detect_lang_go() {
+        let dir = std::env::temp_dir().join("bench_test_detect_go");
+        std::fs::create_dir_all(&dir).unwrap();
+        std::fs::write(dir.join("go.mod"), "").unwrap();
+        let result = detect_lang(dir.to_str().unwrap());
+        assert_eq!(result, Some("go".to_string()));
+        std::fs::remove_dir_all(&dir).ok();
+    }
+
+    #[test]
+    fn detect_lang_node() {
+        let dir = std::env::temp_dir().join("bench_test_detect_node");
+        std::fs::create_dir_all(&dir).unwrap();
+        std::fs::write(dir.join("package.json"), "{}").unwrap();
+        let result = detect_lang(dir.to_str().unwrap());
+        assert_eq!(result, Some("node".to_string()));
+        std::fs::remove_dir_all(&dir).ok();
+    }
+
+    #[test]
+    fn detect_lang_python() {
+        let dir = std::env::temp_dir().join("bench_test_detect_python");
+        std::fs::create_dir_all(&dir).unwrap();
+        std::fs::write(dir.join("pyproject.toml"), "").unwrap();
+        let result = detect_lang(dir.to_str().unwrap());
+        assert_eq!(result, Some("python".to_string()));
+        std::fs::remove_dir_all(&dir).ok();
+    }
+
+    #[test]
+    fn detect_lang_unknown() {
+        let dir = std::env::temp_dir().join("bench_test_detect_none");
+        std::fs::create_dir_all(&dir).unwrap();
+        let result = detect_lang(dir.to_str().unwrap());
+        assert_eq!(result, None);
+        std::fs::remove_dir_all(&dir).ok();
+    }
+
+    // ---- parse_results tests (Rust output) --------------------------------------
+
+    #[test]
+    fn parse_results_rust_libtest() {
+        let output = "\
+test bench_parse_small  ... bench:      1,234 ns/iter (+/- 56)
+test bench_parse_large  ... bench:     98,765 ns/iter (+/- 120)
+";
+        let results = parse_results(output, "rust");
+        assert_eq!(results.len(), 2);
+        assert_eq!(results[0].name, "bench_parse_small");
+        assert_eq!(results[0].ns_per_op, 1234.0);
+        assert_eq!(results[1].name, "bench_parse_large");
+        assert_eq!(results[1].ns_per_op, 98765.0);
+    }
+
+    #[test]
+    fn parse_results_rust_criterion() {
+        let output = "\
+my-bench/group          time:   [1.23 ns 4.56 ns 7.89 ns]
+";
+        let results = parse_results(output, "rust");
+        assert_eq!(results.len(), 1);
+        assert_eq!(results[0].name, "my-bench/group");
+        assert_eq!(results[0].ns_per_op, 4.56);
+    }
+
+    #[test]
+    fn parse_results_rust_empty() {
+        let output = "running 0 tests\n\ntest result: ok. 0 passed\n";
+        let results = parse_results(output, "rust");
+        assert!(results.is_empty());
+    }
+
+    // ---- parse_results tests (Go output) ----------------------------------------
+
+    #[test]
+    fn parse_results_go() {
+        let output = "\
+goos: linux
+goarch: amd64
+BenchmarkFib10-8      5000000     200.5 ns/op    0 B/op    0 allocs/op
+BenchmarkFib20-8       300000    3100.0 ns/op    0 B/op    0 allocs/op
+PASS
+";
+        let results = parse_results(output, "go");
+        assert_eq!(results.len(), 2);
+        assert_eq!(results[0].name, "BenchmarkFib10-8");
+        assert_eq!(results[0].ns_per_op, 200.5);
+        assert_eq!(results[1].name, "BenchmarkFib20-8");
+        assert_eq!(results[1].ns_per_op, 3100.0);
+    }
+
+    #[test]
+    fn parse_results_go_empty() {
+        let output = "PASS\nok  \tmodule\t0.003s\n";
+        let results = parse_results(output, "go");
+        assert!(results.is_empty());
+    }
+
+    // ---- parse_results tests (Python output) ------------------------------------
+
+    #[test]
+    fn parse_results_python() {
+        let output = "\
+test_sort_small     1000,000  45.2 us
+test_sort_large     100,000   1.3 ms
+";
+        let results = parse_results(output, "python");
+        assert_eq!(results.len(), 2);
+        assert_eq!(results[0].name, "test_sort_small");
+        assert!((results[0].ns_per_op - 45_200.0).abs() < 0.1);
+        assert_eq!(results[1].name, "test_sort_large");
+        assert!((results[1].ns_per_op - 1_300_000.0).abs() < 0.1);
+    }
+
+    #[test]
+    fn parse_results_python_nanoseconds() {
+        let output = "test_fast     10000,000  500.0 ns\n";
+        let results = parse_results(output, "python");
+        assert_eq!(results.len(), 1);
+        assert_eq!(results[0].ns_per_op, 500.0);
+    }
+
+    // ---- parse_results tests (Node output) --------------------------------------
+
+    #[test]
+    fn parse_results_node() {
+        let output = "\
+array-sort x 1,234,567 ops/sec ±0.50% (95 runs sampled)
+string-concat x 5,000,000 ops/sec ±1.23% (90 runs sampled)
+";
+        let results = parse_results(output, "node");
+        assert_eq!(results.len(), 2);
+        assert_eq!(results[0].name, "array-sort");
+        assert!((results[0].ns_per_op - 1e9 / 1_234_567.0).abs() < 0.01);
+        assert_eq!(results[1].name, "string-concat");
+        assert!((results[1].ns_per_op - 1e9 / 5_000_000.0).abs() < 0.01);
+    }
+
+    #[test]
+    fn parse_results_node_empty() {
+        let output = "No benchmarks found.\n";
+        let results = parse_results(output, "node");
+        assert!(results.is_empty());
+    }
+
+    // ---- compare / threshold tests ----------------------------------------------
+
+    #[test]
+    fn compare_no_regression() {
+        let baseline = Baseline {
+            schema_version: 1,
+            language: "rust".into(),
+            command: "cargo bench".into(),
+            results: vec![
+                BenchResult {
+                    name: "bench_a".into(),
+                    ns_per_op: 100.0,
+                },
+                BenchResult {
+                    name: "bench_b".into(),
+                    ns_per_op: 200.0,
+                },
+            ],
+            saved_at: "2026-01-01T00:00:00Z".into(),
+        };
+        let current = vec![
+            BenchResult {
+                name: "bench_a".into(),
+                ns_per_op: 105.0,
+            }, // +5%
+            BenchResult {
+                name: "bench_b".into(),
+                ns_per_op: 195.0,
+            }, // -2.5%
+        ];
+        let diffs = compare(&current, &baseline, 10.0);
+        assert_eq!(diffs.len(), 2);
+        assert!(!diffs[0].regression);
+        assert!(!diffs[1].regression);
+    }
+
+    #[test]
+    fn compare_with_regression() {
+        let baseline = Baseline {
+            schema_version: 1,
+            language: "rust".into(),
+            command: "cargo bench".into(),
+            results: vec![BenchResult {
+                name: "bench_a".into(),
+                ns_per_op: 100.0,
+            }],
+            saved_at: "2026-01-01T00:00:00Z".into(),
+        };
+        let current = vec![
+            BenchResult {
+                name: "bench_a".into(),
+                ns_per_op: 115.0,
+            }, // +15%
+        ];
+        let diffs = compare(&current, &baseline, 10.0);
+        assert_eq!(diffs.len(), 1);
+        assert!(diffs[0].regression);
+        assert!((diffs[0].delta_pct.unwrap() - 15.0).abs() < 0.01);
+    }
+
+    #[test]
+    fn compare_new_benchmark() {
+        let baseline = Baseline {
+            schema_version: 1,
+            language: "rust".into(),
+            command: "cargo bench".into(),
+            results: vec![BenchResult {
+                name: "bench_a".into(),
+                ns_per_op: 100.0,
+            }],
+            saved_at: "2026-01-01T00:00:00Z".into(),
+        };
+        let current = vec![
+            BenchResult {
+                name: "bench_a".into(),
+                ns_per_op: 100.0,
+            },
+            BenchResult {
+                name: "bench_new".into(),
+                ns_per_op: 50.0,
+            },
+        ];
+        let diffs = compare(&current, &baseline, 10.0);
+        assert_eq!(diffs.len(), 2);
+        assert!(!diffs[0].new);
+        assert!(diffs[1].new);
+        assert!(!diffs[1].regression); // new benchmarks are not regressions
+    }
+
+    #[test]
+    fn compare_exact_threshold_not_regression() {
+        let baseline = Baseline {
+            schema_version: 1,
+            language: "rust".into(),
+            command: "cargo bench".into(),
+            results: vec![BenchResult {
+                name: "bench_a".into(),
+                ns_per_op: 100.0,
+            }],
+            saved_at: "2026-01-01T00:00:00Z".into(),
+        };
+        // Exactly at threshold (10%) should NOT be a regression (> not >=)
+        let current = vec![BenchResult {
+            name: "bench_a".into(),
+            ns_per_op: 110.0,
+        }];
+        let diffs = compare(&current, &baseline, 10.0);
+        assert!(!diffs[0].regression);
+    }
+
+    #[test]
+    fn compare_improvement_not_flagged() {
+        let baseline = Baseline {
+            schema_version: 1,
+            language: "rust".into(),
+            command: "cargo bench".into(),
+            results: vec![BenchResult {
+                name: "bench_a".into(),
+                ns_per_op: 200.0,
+            }],
+            saved_at: "2026-01-01T00:00:00Z".into(),
+        };
+        let current = vec![
+            BenchResult {
+                name: "bench_a".into(),
+                ns_per_op: 100.0,
+            }, // -50%
+        ];
+        let diffs = compare(&current, &baseline, 10.0);
+        assert!(!diffs[0].regression);
+        assert!(diffs[0].delta_pct.unwrap() < 0.0);
+    }
+
+    // ---- epoch_to_ymd / is_leap tests -------------------------------------------
+
+    #[test]
+    fn is_leap_year() {
+        assert!(is_leap(2000));
+        assert!(is_leap(2024));
+        assert!(!is_leap(1900));
+        assert!(!is_leap(2023));
+    }
+
+    #[test]
+    fn epoch_to_ymd_unix_epoch() {
+        let (y, mo, d, h, mi, s) = epoch_to_ymd(0);
+        assert_eq!((y, mo, d, h, mi, s), (1970, 1, 1, 0, 0, 0));
+    }
+
+    #[test]
+    fn epoch_to_ymd_known_date() {
+        // 2024-01-01 00:00:00 UTC = 1704067200
+        let (y, mo, d, h, mi, s) = epoch_to_ymd(1704067200);
+        assert_eq!((y, mo, d), (2024, 1, 1));
+        assert_eq!((h, mi, s), (0, 0, 0));
+    }
+
+    #[test]
+    fn epoch_to_ymd_mid_year() {
+        // 2023-06-15 12:30:45 UTC = 1686832245
+        let (y, mo, d, h, mi, s) = epoch_to_ymd(1686832245);
+        assert_eq!((y, mo, d), (2023, 6, 15));
+        assert_eq!((h, mi, s), (12, 30, 45));
+    }
+
+    // ---- Diff serialization test ------------------------------------------------
+
+    #[test]
+    fn diff_serializes_correctly() {
+        let diff = Diff {
+            name: "bench_x".into(),
+            ns_per_op: 123.4,
+            previous: Some(100.0),
+            delta_pct: Some(23.4),
+            regression: true,
+            new: false,
+        };
+        let json = serde_json::to_value(&diff).unwrap();
+        assert_eq!(json["name"], "bench_x");
+        assert_eq!(json["regression"], true);
+        assert_eq!(json["new"], false);
+    }
 }
