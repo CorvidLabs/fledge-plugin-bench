@@ -3,8 +3,30 @@ name: CI
 on:
   push:
     branches: [main]
+    paths:
+      - src/**
+      - bin/**
+      - tests/**
+      - benches/**
+      - build.rs
+      - Cargo.toml
+      - Cargo.lock
+      - .github/workflows/ci.yml
   pull_request:
     branches: [main]
+    paths:
+      - src/**
+      - bin/**
+      - tests/**
+      - benches/**
+      - build.rs
+      - Cargo.toml
+      - Cargo.lock
+      - .github/workflows/ci.yml
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
   CARGO_TERM_COLOR: always
@@ -12,11 +34,13 @@ env:
 jobs:
   check:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: clippy, rustfmt
+      - uses: Swatinem/rust-cache@v2
       - run: cargo fmt --check
       - run: cargo clippy -- -D warnings
       - run: cargo test
