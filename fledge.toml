@@ -1,0 +1,9 @@
+# fledge.toml: project task definitions
+[tasks]
+format = "cargo fmt --check"
+lint = "cargo clippy -- -D warnings"
+test = "cargo test"
+
+[lanes.verify]
+description = "Format, lint, and test the benchmark plugin"
+steps = ["format", "lint", "test"]

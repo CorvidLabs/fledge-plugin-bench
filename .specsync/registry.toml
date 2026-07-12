@@ -1,0 +1,5 @@
+[registry]
+name = "fledge-plugin-bench-trust-wave3"
+
+[specs]
+bench = "specs/bench/bench.spec.md"
