@@ -13,15 +13,16 @@ Address valid rollout review and strict documentation findings
 
 ## Affected Canonical Specs
 
-- None
+- `bench`
 
 ## Acceptance Criteria
 
 - Strict SpecSync validation passes at 100 percent coverage
 - all valid review findings are addressed
-- generated guidance is structurally correct
+- generated guidance and lifecycle path coverage are structurally correct
+- the canonical contract describes current store-gated behavior without changing it
 - and all 33 benchmark tests remain green.
 
 ## No-spec Rationale
 
-Benchmark strict documentation labels, governance path coverage, and generated agent guidance are corrected without changing runtime behavior.
+Not applicable

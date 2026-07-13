@@ -8,28 +8,33 @@
   "state": "implementing",
   "base_commit": "cb29648b3fa3810bd33e445708967dd32d70a723",
   "created_at": 1783929738,
-  "updated_at": 1783952047,
-  "affected_specs": [],
+  "updated_at": 1783953099,
+  "affected_specs": [
+    "bench"
+  ],
   "affected_paths": [
     "specs/bench/",
     ".specsync/sdd.json",
     ".claude/",
     ".codex/",
-    ".cursor/"
+    ".cursor/",
+    ".gemini/"
   ],
-  "no_spec_change": true,
-  "no_spec_change_rationale": "Benchmark strict documentation labels, governance path coverage, and generated agent guidance are corrected without changing runtime behavior.",
+  "no_spec_change": false,
+  "no_spec_change_rationale": null,
   "acceptance_criteria": [
     "Strict SpecSync validation passes at 100 percent coverage",
     "all valid review findings are addressed",
-    "generated guidance is structurally correct",
+    "generated guidance and lifecycle path coverage are structurally correct",
+    "the canonical contract describes current store-gated behavior without changing it",
     "and all 33 benchmark tests remain green."
   ],
   "selected_artifacts": [
     "context",
     "docs",
     "design",
-    "tasks"
+    "tasks",
+    "testing"
   ],
   "dependencies": [],
   "answers": {

@@ -22,15 +22,22 @@
     "pyproject.toml",
     "uv.lock",
     "requirements.txt",
+    ".augur.toml",
+    ".attest.json",
     "fledge.toml",
     ".trust.toml",
+    "plugin.toml",
+    "README.md",
+    "docs/",
     ".specsync/sdd.json",
     ".specsync/config.toml",
     ".specsync/config.json",
-    ".specsync/version"
+    ".specsync/version",
+    "bin/"
   ],
   "ignored_paths": [
-    ".specsync/",
+    ".specsync/changes/",
+    ".specsync/adoption-report.json",
     "specs/"
   ],
   "verification_commands": [

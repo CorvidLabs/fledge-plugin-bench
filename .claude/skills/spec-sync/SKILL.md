@@ -62,7 +62,7 @@ minimal spec-only draft. Complete the spec before writing code. The
 accepts either a bare module name or a natural-language feature description
 (e.g. `/specsync:create-spec "I want a feature that lets users export their
 data as CSV"`) — pass a description and it will pick a module name and use
-the description to draft the spec's Purpose and Requirements.
+the description to draft the spec's Purpose and Invariants plus its companion requirements.
 
 ## Key commands
 
