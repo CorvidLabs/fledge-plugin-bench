@@ -1,0 +1,25 @@
+{
+  "approvals": [
+    {
+      "gate": "definition",
+      "actor": "user:0xLeif",
+      "timestamp": 1783929824,
+      "digest": "d58488edb00ca643679a7426fc1ee28a78175cb4caaceb9ef6efe05dde95ac3e",
+      "note": "Approved under the active user-authorized organization rollout to resolve valid review findings and merge green PRs."
+    },
+    {
+      "gate": "definition",
+      "actor": "user:0xLeif",
+      "timestamp": 1783948220,
+      "digest": "c9cf1009f50e32e56751ed55e15f360a02f6118fca22132763f64682fbf97d69",
+      "note": "Authorized non-semantic strict-documentation and generated-integration corrections; prior accepted history remains preserved."
+    },
+    {
+      "gate": "acceptance",
+      "actor": "user:0xLeif",
+      "timestamp": 1783948261,
+      "digest": "2348a1e8e5860018810f38b22ae962bb2012d54f97e45dd854aed3d1adedcfc2",
+      "note": "Authorized non-semantic review corrections verified successfully; prior approval history preserved and hosted CI remains pending."
+    }
+  ]
+}
