@@ -20,6 +20,13 @@
       "timestamp": 1783948824,
       "digest": "513dcc0242cd61200b0fefe43365b5e56d7bdf74297759ab0e27135ea0ece5b2",
       "note": "Fresh verification covers final non-semantic review corrections; superseded closing approval replaced while prior history remains preserved."
+    },
+    {
+      "gate": "definition",
+      "actor": "user:0xLeif",
+      "timestamp": 1783952047,
+      "digest": "035c562077dc5f53f35e15155cd82f62df68e5d7f67f42d6a44841e2763d9032",
+      "note": "Fresh definition approval for the user-authorized audited reopen after valid non-semantic review corrections; prior approval history preserved."
     }
   ]
 }

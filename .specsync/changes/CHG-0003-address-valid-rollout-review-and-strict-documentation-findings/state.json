@@ -5,10 +5,10 @@
   "title": "Address valid rollout review and strict documentation findings",
   "description": "Address valid rollout review and strict documentation findings",
   "kind": "documentation",
-  "state": "accepted",
+  "state": "implementing",
   "base_commit": "cb29648b3fa3810bd33e445708967dd32d70a723",
   "created_at": 1783929738,
-  "updated_at": 1783948261,
+  "updated_at": 1783952047,
   "affected_specs": [],
   "affected_paths": [
     "specs/bench/",
