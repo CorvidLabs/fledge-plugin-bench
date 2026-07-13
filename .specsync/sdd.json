@@ -22,6 +22,8 @@
     "pyproject.toml",
     "uv.lock",
     "requirements.txt",
+    "fledge.toml",
+    ".trust.toml",
     ".specsync/sdd.json",
     ".specsync/config.toml",
     ".specsync/config.json",
@@ -32,7 +34,7 @@
     "specs/"
   ],
   "verification_commands": [
-    "cargo fmt --check && cargo clippy -- -D warnings && cargo test"
+    "fledge lanes run verify"
   ],
   "custom_artifacts": {},
   "principles_file": null

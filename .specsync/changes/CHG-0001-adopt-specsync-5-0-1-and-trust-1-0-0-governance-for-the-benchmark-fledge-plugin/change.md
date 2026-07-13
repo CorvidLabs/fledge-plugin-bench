@@ -1,6 +1,6 @@
 ---
 id: CHG-0001-adopt-specsync-5-0-1-and-trust-1-0-0-governance-for-the-benchmark-fledge-plugin
-state: draft
+state: accepted
 type: migration
 base_commit: fd452e73e460e843867bcefcd232304ae0817c07
 ---
@@ -13,7 +13,7 @@ Adopt SpecSync 5.0.1 and Trust 1.0.0 governance for the benchmark Fledge plugin
 
 ## Affected Canonical Specs
 
-- `bench`
+- None
 
 ## Acceptance Criteria
 
@@ -23,4 +23,4 @@ Adopt SpecSync 5.0.1 and Trust 1.0.0 governance for the benchmark Fledge plugin
 
 ## No-spec Rationale
 
-Not applicable
+This governance adoption documents existing benchmark behavior and verification policy without changing runtime semantics.

@@ -10,5 +10,3 @@ artifact: tasks
 - [x] Add Fledge, Augur, Attest, and Trust policy.
 - [x] Add the immutable Trust workflow.
 - [x] Pass format, Clippy, and all 33 tests.
-- [ ] Record definition and closing approvals.
-- [ ] Pass hosted checks.

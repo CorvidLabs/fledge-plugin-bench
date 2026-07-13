@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "id": "CHG-0003-address-valid-rollout-review-and-strict-documentation-findings",
+  "slug": "address-valid-rollout-review-and-strict-documentation-findings",
+  "title": "Address valid rollout review and strict documentation findings",
+  "description": "Address valid rollout review and strict documentation findings",
+  "kind": "documentation",
+  "state": "accepted",
+  "base_commit": "cb29648b3fa3810bd33e445708967dd32d70a723",
+  "created_at": 1783929738,
+  "updated_at": 1783948261,
+  "affected_specs": [],
+  "affected_paths": [
+    "specs/bench/",
+    ".specsync/sdd.json",
+    ".claude/",
+    ".codex/",
+    ".cursor/"
+  ],
+  "no_spec_change": true,
+  "no_spec_change_rationale": "Benchmark strict documentation labels, governance path coverage, and generated agent guidance are corrected without changing runtime behavior.",
+  "acceptance_criteria": [
+    "Strict SpecSync validation passes at 100 percent coverage",
+    "all valid review findings are addressed",
+    "generated guidance is structurally correct",
+    "and all 33 benchmark tests remain green."
+  ],
+  "selected_artifacts": [
+    "context",
+    "docs",
+    "design",
+    "tasks"
+  ],
+  "dependencies": [],
+  "answers": {
+    "architecture_risk": "no",
+    "public_contract": "no"
+  }
+}

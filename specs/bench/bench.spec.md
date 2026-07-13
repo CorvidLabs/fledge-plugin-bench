@@ -19,13 +19,13 @@ Run language-native benchmarks through fledge, persist a baseline, compare later
 
 | Command | Behavior |
 |---------|----------|
-| `run` (default) | Execute benchmarks and compare results with a stored baseline when present. |
-| `save` | Execute benchmarks and persist a schema-versioned baseline. |
-| `show` | Display the stored baseline in human or JSON form. |
-| `clear` | Remove the stored baseline. |
-| `--threshold N` | Set the allowed regression percentage; defaults to 10. |
-| `--lang LANGUAGE` | Override marker-based Rust, Go, Node, or Python detection. |
-| `--json` | Emit schema-versioned machine-readable output. |
+| Run (default) | Execute benchmarks and compare results with a stored baseline when present. |
+| Save | Execute benchmarks and persist a schema-versioned baseline. |
+| Show | Display the stored baseline in human or JSON form. |
+| Clear | Remove the stored baseline. |
+| Threshold option | Set the allowed regression percentage; defaults to 10. |
+| Language option | Override marker-based Rust, Go, Node, or Python detection. |
+| JSON option | Emit schema-versioned machine-readable output. |
 
 ## Invariants
 

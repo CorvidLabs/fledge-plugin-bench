@@ -1,3 +1,25 @@
 {
-  "approvals": []
+  "approvals": [
+    {
+      "gate": "definition",
+      "actor": "user:0xLeif",
+      "timestamp": 1783927441,
+      "digest": "035c562077dc5f53f35e15155cd82f62df68e5d7f67f42d6a44841e2763d9032",
+      "note": "Approved under the user-authorized CorvidLabs organization-wide SpecSync 5.0.1 and Trust 1.0.0 rollout with explicit authorization to complete and merge."
+    },
+    {
+      "gate": "definition",
+      "actor": "user:0xLeif",
+      "timestamp": 1783948772,
+      "digest": "035c562077dc5f53f35e15155cd82f62df68e5d7f67f42d6a44841e2763d9032",
+      "note": "Authorized refresh after valid non-semantic review corrections; prior definition and closing history preserved except the superseded stale closing approval."
+    },
+    {
+      "gate": "acceptance",
+      "actor": "user:0xLeif",
+      "timestamp": 1783948824,
+      "digest": "513dcc0242cd61200b0fefe43365b5e56d7bdf74297759ab0e27135ea0ece5b2",
+      "note": "Fresh verification covers final non-semantic review corrections; superseded closing approval replaced while prior history remains preserved."
+    }
+  ]
 }
