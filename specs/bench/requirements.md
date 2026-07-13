@@ -15,7 +15,12 @@ The plugin SHALL run native benchmarks for detected or explicitly selected Rust,
 
 ### REQ-bench-002
 
-The plugin SHALL save, show, and clear a schema-versioned benchmark baseline through fledge storage.
+The plugin SHALL save, show, and clear a schema-versioned benchmark baseline through fledge storage while preserving the current capability-specific behavior.
+
+Acceptance Criteria
+- Save rejects a missing `store` capability.
+- Show loads only when `store` is granted and otherwise reports that no baseline is saved.
+- Clear emits the storage request and reports completion without independently rejecting a missing `store` capability.
 
 ### REQ-bench-003
 

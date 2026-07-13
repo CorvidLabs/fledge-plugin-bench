@@ -1,6 +1,6 @@
 ---
 module: bench
-version: 1
+version: 2
 status: active
 files:
   - src/main.rs
@@ -31,10 +31,12 @@ Run language-native benchmarks through fledge, persist a baseline, compare later
 
 1. Running benchmarks requires the fledge `exec` capability.
 2. Saving a baseline requires the fledge `store` capability.
-3. Baselines retain schema version, language, command, results, and save time.
-4. A comparison exits non-zero when any result exceeds the configured regression threshold.
-5. New benchmarks are reported but are not regressions without a prior value.
-6. All parsed measurements are normalized to nanoseconds per operation.
+3. Showing a baseline loads it only when `store` is granted; otherwise it reports that no baseline is saved.
+4. Clearing emits a storage request and reports completion without independently rejecting a missing `store` capability.
+5. Baselines retain schema version, language, command, results, and save time.
+6. A comparison exits non-zero when any result exceeds the configured regression threshold.
+7. New benchmarks are reported but are not regressions without a prior value.
+8. All parsed measurements are normalized to nanoseconds per operation.
 
 ## Behavioral Examples
 
@@ -65,3 +67,4 @@ Then the result is marked as a regression and the command exits non-zero
 | Version | Date | Changes |
 |---------|------|---------|
 | 1 | 2026-07-12 | Document existing benchmark and baseline behavior for SpecSync 5 adoption. |
+| 2026-07-13 | CHG-0003-address-valid-rollout-review-and-strict-documentation-findings: Address valid rollout review and strict documentation findings |

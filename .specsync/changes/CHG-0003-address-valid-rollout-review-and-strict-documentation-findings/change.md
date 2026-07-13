@@ -1,6 +1,6 @@
 ---
 id: CHG-0003-address-valid-rollout-review-and-strict-documentation-findings
-state: implementing
+state: accepted
 type: documentation
 base_commit: cb29648b3fa3810bd33e445708967dd32d70a723
 ---
