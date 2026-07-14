@@ -48,6 +48,49 @@
       "timestamp": 1783957798,
       "digest": "a8aa34b3ce1e4cce0eaab718dab48373c82261f809006f5cd1067c4a7abc3542",
       "note": "Fresh closing approval under explicit audit-risk authorization after successful committed-head native re-verification."
+    },
+    {
+      "gate": "acceptance",
+      "actor": "user:0xLeif",
+      "timestamp": 1783988723,
+      "digest": "3cf1082db0912520151ebe149086027029fcf44d14ed4c62fcd2d1d799ae8a43",
+      "note": "Fresh closing approval after successful native verification of the corrected delivery state"
+    }
+  ],
+  "reopenings": [
+    {
+      "schema_version": 1,
+      "change_id": "CHG-0001-adopt-specsync-5-0-1-and-trust-1-0-0-governance-for-the-benchmark-fledge-plugin",
+      "actor": "user:0xLeif",
+      "reason": "Fresh verification required after authorized non-semantic rollout review corrections",
+      "timestamp": 1783988510,
+      "from_state": "accepted",
+      "to_state": "verifying",
+      "superseded_approval": {
+        "gate": "acceptance",
+        "actor": "user:0xLeif",
+        "timestamp": 1783957798,
+        "digest": "a8aa34b3ce1e4cce0eaab718dab48373c82261f809006f5cd1067c4a7abc3542",
+        "note": "Fresh closing approval under explicit audit-risk authorization after successful committed-head native re-verification."
+      },
+      "prior_verification": {
+        "timestamp": 1783957427,
+        "commit": "c59ba5fb2cce2f0822f59239b8a108640f2a79de",
+        "contract_digest": "035c562077dc5f53f35e15155cd82f62df68e5d7f67f42d6a44841e2763d9032",
+        "workspace_digest": "5f6326eb33b92bf6490cf7ef652fa7167d506f9ecd0ac7c4187b785fadc9fa1e",
+        "acceptance_input_digest": "2207a84b154993e5e6c34143e1f1652aec6cbeb85cd00a6ade4303202faef97a",
+        "passed": true,
+        "commands": [
+          {
+            "command": "fledge lanes run verify",
+            "success": true,
+            "exit_code": 0
+          }
+        ],
+        "requirement_ids": []
+      },
+      "stale_acceptance_input_digest": "2207a84b154993e5e6c34143e1f1652aec6cbeb85cd00a6ade4303202faef97a",
+      "current_acceptance_input_digest": "2e33a2d023ae39e64c7cc8f4de86e5f54e2dab36977a14c6922d2f266974ddf9"
     }
   ]
 }

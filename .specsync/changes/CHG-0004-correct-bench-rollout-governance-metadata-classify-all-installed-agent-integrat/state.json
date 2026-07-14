@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "id": "CHG-0004-correct-bench-rollout-governance-metadata-classify-all-installed-agent-integrat",
+  "slug": "correct-bench-rollout-governance-metadata-classify-all-installed-agent-integrat",
+  "title": "Correct Bench rollout governance metadata, classify all installed agent integrations as meaningful, and make Gemini create-change guidance shell-safe",
+  "description": "Correct Bench rollout governance metadata, classify all installed agent integrations as meaningful, and make Gemini create-change guidance shell-safe",
+  "kind": "documentation",
+  "state": "accepted",
+  "canonical_applied": true,
+  "base_commit": "eaf941c986f250ea7589a966deae5d0fb6775694",
+  "created_at": 1783988417,
+  "updated_at": 1783988652,
+  "affected_specs": [
+    "bench"
+  ],
+  "affected_paths": [
+    "specs/bench/bench.spec.md",
+    ".specsync/sdd.json",
+    ".gemini/commands/specsync/create-change.toml"
+  ],
+  "no_spec_change": false,
+  "no_spec_change_rationale": null,
+  "acceptance_criteria": [
+    "The Bench changelog records version 2; all four installed agent directories are meaningful paths; Gemini guidance passes user intent as exactly one shell argument without adding a second quote layer; strict SpecSync coverage and native verification pass"
+  ],
+  "selected_artifacts": [
+    "context",
+    "docs"
+  ],
+  "dependencies": [],
+  "answers": {
+    "architecture_risk": "no",
+    "public_contract": "no"
+  }
+}

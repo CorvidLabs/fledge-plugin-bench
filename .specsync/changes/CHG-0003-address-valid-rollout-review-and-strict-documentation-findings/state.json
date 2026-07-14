@@ -6,9 +6,10 @@
   "description": "Address valid rollout review and strict documentation findings",
   "kind": "documentation",
   "state": "accepted",
+  "canonical_applied": true,
   "base_commit": "cb29648b3fa3810bd33e445708967dd32d70a723",
   "created_at": 1783929738,
-  "updated_at": 1783953159,
+  "updated_at": 1783988725,
   "affected_specs": [
     "bench"
   ],

@@ -1,6 +1,6 @@
 ---
 module: bench
-version: 2
+version: 3
 status: active
 files:
   - src/main.rs
@@ -67,4 +67,5 @@ Then the result is marked as a regression and the command exits non-zero
 | Version | Date | Changes |
 |---------|------|---------|
 | 1 | 2026-07-12 | Document existing benchmark and baseline behavior for SpecSync 5 adoption. |
-| 2026-07-13 | CHG-0003-address-valid-rollout-review-and-strict-documentation-findings: Address valid rollout review and strict documentation findings |
+| 2 | 2026-07-13 | Address valid rollout review and strict documentation findings. |
+| 3 | 2026-07-14 | CHG-0004-correct-bench-rollout-governance-metadata-classify-all-installed-agent-integrat: Correct Bench rollout governance metadata, classify all installed agent integrations as meaningful, and make Gemini create-change guidance shell-safe |

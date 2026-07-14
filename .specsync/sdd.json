@@ -3,6 +3,10 @@
   "enabled": true,
   "require_change_for_meaningful_files": true,
   "meaningful_paths": [
+    ".claude/",
+    ".codex/",
+    ".cursor/",
+    ".gemini/",
     "src/",
     "tests/",
     "site/",
