@@ -20,6 +20,72 @@
       "timestamp": 1783948261,
       "digest": "2348a1e8e5860018810f38b22ae962bb2012d54f97e45dd854aed3d1adedcfc2",
       "note": "Authorized non-semantic review corrections verified successfully; prior approval history preserved and hosted CI remains pending."
+    },
+    {
+      "gate": "definition",
+      "actor": "user:0xLeif",
+      "timestamp": 1783952047,
+      "digest": "c9cf1009f50e32e56751ed55e15f360a02f6118fca22132763f64682fbf97d69",
+      "note": "Fresh definition approval for the user-authorized audited reopen after valid non-semantic review corrections; prior approval history preserved."
+    },
+    {
+      "gate": "definition",
+      "actor": "user:0xLeif",
+      "timestamp": 1783953099,
+      "digest": "9c46819c5ed3b3093e397eb7c1c4c7aa742e084883136bb4fdc277af763a829a",
+      "note": "Fresh definition approval for validated non-semantic review corrections; all prior approval history is preserved."
+    },
+    {
+      "gate": "acceptance",
+      "actor": "user:0xLeif",
+      "timestamp": 1783953159,
+      "digest": "bfff885cf00ca533f6e246382e2573dc5cb00ba68a0c2e4d46904debdc0a60b2",
+      "note": "Fresh closing approval after committed-head native verification of the authorized non-semantic review corrections."
+    },
+    {
+      "gate": "acceptance",
+      "actor": "user:0xLeif",
+      "timestamp": 1783988725,
+      "digest": "d564f3a42c8d153ab31430e8e69817d93903f85fb69872a9345751feb668c16c",
+      "note": "Fresh closing approval after successful native verification of the corrected delivery state"
+    }
+  ],
+  "reopenings": [
+    {
+      "schema_version": 1,
+      "change_id": "CHG-0003-address-valid-rollout-review-and-strict-documentation-findings",
+      "actor": "user:0xLeif",
+      "reason": "Fresh verification required after authorized non-semantic rollout review corrections",
+      "timestamp": 1783988512,
+      "from_state": "accepted",
+      "to_state": "verifying",
+      "superseded_approval": {
+        "gate": "acceptance",
+        "actor": "user:0xLeif",
+        "timestamp": 1783953159,
+        "digest": "bfff885cf00ca533f6e246382e2573dc5cb00ba68a0c2e4d46904debdc0a60b2",
+        "note": "Fresh closing approval after committed-head native verification of the authorized non-semantic review corrections."
+      },
+      "prior_verification": {
+        "timestamp": 1783953115,
+        "commit": "d3893afc381b97e308e235b546cbf380fcaddd89",
+        "contract_digest": "9c46819c5ed3b3093e397eb7c1c4c7aa742e084883136bb4fdc277af763a829a",
+        "workspace_digest": "bddc9da24dfb5bc9544c5a8a279ba3c3a431eedd859ed5377cf5ae8047049bcb",
+        "acceptance_input_digest": "34676eb8f4f99aa9f35c696b9622a72b7487275be30626cce21e427a76ce0e12",
+        "passed": true,
+        "commands": [
+          {
+            "command": "fledge lanes run verify",
+            "success": true,
+            "exit_code": 0
+          }
+        ],
+        "requirement_ids": [
+          "REQ-bench-002"
+        ]
+      },
+      "stale_acceptance_input_digest": "34676eb8f4f99aa9f35c696b9622a72b7487275be30626cce21e427a76ce0e12",
+      "current_acceptance_input_digest": "a0de6b6c654353136da255086c4fe2fdf9319b89c9efc000c7ae405d0bb4cee5"
     }
   ]
 }

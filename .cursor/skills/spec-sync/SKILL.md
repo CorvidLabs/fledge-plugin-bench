@@ -58,11 +58,11 @@ Run `specsync check --strict` — all specs must pass with zero warnings.
 Run `specsync scaffold <module-name>` to create a spec, companion files, a registry
 entry, and auto-detected source files — or `specsync new <module-name>` for a
 minimal spec-only draft. Complete the spec before writing code. The
-`/specsync:create-spec` command (or tool-equivalent) runs this for you, and
+`/specsync-create-spec` command (or tool-equivalent) runs this for you, and
 accepts either a bare module name or a natural-language feature description
-(e.g. `/specsync:create-spec "I want a feature that lets users export their
+(e.g. `/specsync-create-spec "I want a feature that lets users export their
 data as CSV"`) — pass a description and it will pick a module name and use
-the description to draft the spec's Purpose and Requirements.
+the description to draft the spec's Purpose and Invariants plus its companion requirements.
 
 ## Key commands
 

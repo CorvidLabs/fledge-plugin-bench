@@ -1,9 +1,9 @@
 {
-  "timestamp": 1783948231,
-  "commit": "cb29648b3fa3810bd33e445708967dd32d70a723",
-  "contract_digest": "c9cf1009f50e32e56751ed55e15f360a02f6118fca22132763f64682fbf97d69",
-  "workspace_digest": "0c2d903fb34c3deea3ab999c0498d1443c0fcb87165bce4c9eb497e2990bcceb",
-  "acceptance_input_digest": "cdea241bd9c3682148531fad36f3597ee7d8ef12f017d4454ad721fb004295b2",
+  "timestamp": 1783988712,
+  "commit": "eaf941c986f250ea7589a966deae5d0fb6775694",
+  "contract_digest": "9c46819c5ed3b3093e397eb7c1c4c7aa742e084883136bb4fdc277af763a829a",
+  "workspace_digest": "0f4c33628f2cdafa73263c296c9ce99283e6e0dd06383f64a47b5502162027ff",
+  "acceptance_input_digest": "2213e2302942114b728342e9607b081b8f80304a8f6d3de6306608d27a4fab0f",
   "passed": true,
   "commands": [
     {
@@ -12,5 +12,7 @@
       "exit_code": 0
     }
   ],
-  "requirement_ids": []
+  "requirement_ids": [
+    "REQ-bench-002"
+  ]
 }

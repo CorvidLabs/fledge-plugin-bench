@@ -1,0 +1,19 @@
+{
+  "approvals": [
+    {
+      "gate": "definition",
+      "actor": "user:0xLeif",
+      "timestamp": 1783988489,
+      "digest": "0968c1774b0539ba872a50cb0b066c4b7c7c05b770ef1b54fd2b9b83503c32d2",
+      "note": "Approved non-semantic rollout governance and agent-guidance correction"
+    },
+    {
+      "gate": "acceptance",
+      "actor": "user:0xLeif",
+      "timestamp": 1783988652,
+      "digest": "235162efd1013ae87cf0ce048f05d947d17ee453b6d72ddd74c85fc8247a2556",
+      "note": "Closing approval after successful native verification of non-semantic governance corrections"
+    }
+  ],
+  "reopenings": []
+}
