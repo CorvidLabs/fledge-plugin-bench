@@ -1,6 +1,6 @@
 ---
 id: CHG-0004-correct-bench-rollout-governance-metadata-classify-all-installed-agent-integrat
-state: accepted
+state: archived
 type: documentation
 base_commit: eaf941c986f250ea7589a966deae5d0fb6775694
 ---
